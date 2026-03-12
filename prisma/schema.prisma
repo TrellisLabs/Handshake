@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Campaign {
+  id             String      @id @default(uuid())
+  name           String
+  description    String
+  safeAddress    String?
+  fundingGoal    BigInt      // USDC uses 6 decimals
+  currentFunding BigInt      @default(0)
+  creatorAddress String
+  recipientAddress String    // Where funds go when milestones are approved
+  status         String      @default("funding") // funding, active, completed, cancelled
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  milestones     Milestone[]
+  signers        Signer[]
+}
+
+model Milestone {
+  id            String   @id @default(uuid())
+  campaignId    String
+  title         String
+  description   String
+  releaseAmount BigInt   // USDC amount to release
+  order         Int
+  status        String   @default("pending") // pending, submitted, approved, paid
+  proofUrl      String?
+  txHash        String?  // Transaction hash when paid
+  safeTxHash    String?  // Safe transaction hash for tracking
+  confirmations Int      @default(0) // Signature count
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  campaign      Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model Signer {
+  id         String   @id @default(uuid())
+  campaignId String
+  address    String
+  role       String   // creator, trustee, platform
+  createdAt  DateTime @default(now())
+
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, address])
+}
