@@ -106,7 +106,7 @@ export default function NewCampaignPage() {
             Create a Group Buy Campaign
           </h1>
           <p className="text-gray-600 mb-6">
-            Please connect your wallet to create a campaign.
+            Connect wallet to continue.
           </p>
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function NewCampaignPage() {
               placeholder="0x..."
             />
             <p className="mt-1 text-sm text-gray-500">
-              Where funds will be sent when milestones are approved
+              Payout address
             </p>
           </div>
         </div>
@@ -197,7 +197,7 @@ export default function NewCampaignPage() {
             Trustees (2-of-3 Multi-Sig)
           </h2>
           <p className="text-sm text-gray-600">
-            You and 2 trustees will control fund releases. 2 signatures required.
+            2 of 3 signatures required to release funds.
           </p>
 
           <div>
@@ -248,7 +248,7 @@ export default function NewCampaignPage() {
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Milestones</h2>
               <p className="text-sm text-gray-600">
-                Define when funds are released. Total must equal funding goal.
+                Total must equal funding goal.
               </p>
             </div>
             <button

@@ -74,7 +74,7 @@ export function FundButton({ campaignId, safeAddress }: FundButtonProps) {
     return (
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <p className="text-gray-600 text-sm">
-          Connect your wallet to fund this campaign.
+          Connect wallet to fund.
         </p>
       </div>
     );
@@ -90,7 +90,7 @@ export function FundButton({ campaignId, safeAddress }: FundButtonProps) {
 
       {success && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-green-700 text-sm">
-          Funds sent successfully! The balance will update shortly.
+          Sent!
         </div>
       )}
 
@@ -125,7 +125,7 @@ export function FundButton({ campaignId, safeAddress }: FundButtonProps) {
       </div>
 
       <p className="text-xs text-gray-500">
-        Funds are sent directly to the campaign&apos;s Safe wallet.
+        Sent to campaign Safe wallet.
       </p>
     </div>
   );

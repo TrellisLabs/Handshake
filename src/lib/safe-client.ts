@@ -3,75 +3,30 @@ import { RPC_URL } from "./constants";
 
 export interface PredictedSafe {
   address: string;
-  deploymentTransaction: {
-    to: string;
-    data: string;
-    value: string;
-  };
+  deploymentTransaction: { to: string; data: string; value: string };
 }
 
-/**
- * Predict Safe address before deployment
- * This allows us to know the address without deploying
- */
-export async function predictSafeAddress(
-  owners: string[],
-  threshold: number
-): Promise<string> {
-  const protocolKit = await Safe.init({
-    provider: RPC_URL,
-    predictedSafe: {
-      safeAccountConfig: {
-        owners,
-        threshold,
-      },
-    },
-  });
-
-  return await protocolKit.getAddress();
-}
-
-/**
- * Create deployment transaction data for client-side execution
- * Returns the transaction data that can be sent via thirdweb
- */
 export async function createDeploymentTransaction(
   owners: string[],
   threshold: number
 ): Promise<PredictedSafe> {
   const protocolKit = await Safe.init({
     provider: RPC_URL,
-    predictedSafe: {
-      safeAccountConfig: {
-        owners,
-        threshold,
-      },
-    },
+    predictedSafe: { safeAccountConfig: { owners, threshold } },
   });
 
   const address = await protocolKit.getAddress();
-  const deploymentTransaction = await protocolKit.createSafeDeploymentTransaction();
+  const tx = await protocolKit.createSafeDeploymentTransaction();
 
   return {
     address,
-    deploymentTransaction: {
-      to: deploymentTransaction.to,
-      data: deploymentTransaction.data,
-      value: deploymentTransaction.value,
-    },
+    deploymentTransaction: { to: tx.to, data: tx.data, value: tx.value },
   };
 }
 
-/**
- * Check if a Safe is already deployed at an address
- */
 export async function isSafeDeployed(address: string): Promise<boolean> {
   try {
-    const protocolKit = await Safe.init({
-      provider: RPC_URL,
-      safeAddress: address,
-    });
-    // If we can get the address, the Safe exists
+    const protocolKit = await Safe.init({ provider: RPC_URL, safeAddress: address });
     await protocolKit.getAddress();
     return true;
   } catch {
@@ -79,30 +34,6 @@ export async function isSafeDeployed(address: string): Promise<boolean> {
   }
 }
 
-/**
- * Get the message hash that needs to be signed by an owner
- * This is used for EIP-712 signing
- */
-export async function getTransactionHash(
-  safeAddress: string,
-  transaction: { to: string; data: string; value: string }
-): Promise<string> {
-  const protocolKit = await Safe.init({
-    provider: RPC_URL,
-    safeAddress,
-  });
-
-  const safeTransaction = await protocolKit.createTransaction({
-    transactions: [transaction],
-  });
-
-  return await protocolKit.getTransactionHash(safeTransaction);
-}
-
-/**
- * Create an unsigned Safe transaction
- * Returns transaction data and hash for client-side signing
- */
 export async function createUnsignedTransaction(params: {
   safeAddress: string;
   to: string;
@@ -125,15 +56,10 @@ export async function createUnsignedTransaction(params: {
 }> {
   const { safeAddress, to, data, value = "0" } = params;
 
-  const protocolKit = await Safe.init({
-    provider: RPC_URL,
-    safeAddress,
-  });
-
+  const protocolKit = await Safe.init({ provider: RPC_URL, safeAddress });
   const safeTransaction = await protocolKit.createTransaction({
     transactions: [{ to, data, value }],
   });
-
   const safeTxHash = await protocolKit.getTransactionHash(safeTransaction);
 
   return {
@@ -152,4 +78,3 @@ export async function createUnsignedTransaction(params: {
     },
   };
 }
-

@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Handshake - Trustless Group Buys",
-  description: "Pool funds for group purchases with blockchain-based escrow",
+  title: "Handshake",
+  description: "Multi-sig escrow for group buys",
 };
 
 export default function RootLayout({

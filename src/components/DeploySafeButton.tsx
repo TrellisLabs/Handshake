@@ -135,9 +135,9 @@ export function DeploySafeButton({ campaignId, signers }: DeploySafeButtonProps)
       )}
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="font-medium text-blue-900 mb-2">Safe Wallet Required</h3>
+        <h3 className="font-medium text-blue-900 mb-2">Deploy Safe Wallet</h3>
         <p className="text-blue-800 text-sm mb-4">
-          This campaign needs a Safe wallet to receive and manage funds. Deploy one with the following configuration:
+          Multi-sig wallet for this campaign:
         </p>
 
         <div className="bg-white rounded p-3 mb-4 space-y-2">
@@ -161,7 +161,7 @@ export function DeploySafeButton({ campaignId, signers }: DeploySafeButtonProps)
 
         {!account ? (
           <p className="text-sm text-gray-600">
-            Connect your wallet to deploy the Safe.
+            Connect wallet to deploy.
           </p>
         ) : (
           <button

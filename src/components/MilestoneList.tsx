@@ -311,7 +311,7 @@ export function MilestoneList({
                   {isSubmitting ? "Proposing..." : "Approve & Propose Payout"}
                 </button>
                 <p className="text-xs text-gray-500 mt-2">
-                  This will propose a transaction to release funds. Other signers will need to approve.
+                  Requires 2 signatures to release.
                 </p>
               </div>
             )}

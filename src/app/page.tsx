@@ -24,7 +24,7 @@ export default async function Home() {
           Group Buy Campaigns
         </h1>
         <p className="text-gray-600">
-          Pool funds with others for bulk purchases. Secured by blockchain escrow.
+          Pool funds for bulk purchases. Multi-sig escrow.
         </p>
       </div>
 
